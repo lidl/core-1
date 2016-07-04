@@ -13,6 +13,7 @@ AM_CPPFLAGS = \
 
 liblogin_la_SOURCES = \
 	access-lookup.c \
+	blacklist.c \
 	client-common.c \
 	client-common-auth.c \
 	login-proxy.c \
@@ -29,11 +30,13 @@ openssl_obj = ../lib-ssl-iostream/iostream-openssl-common.lo
 endif
 
 liblogin_la_LIBADD = \
+	$(LIBBLACKLIST) \
 	$(openssl_obj) \
 	$(SSL_LIBS)
 
 headers = \
 	access-lookup.h \
+	blacklist-client.h \
 	client-common.h \
 	login-common.h \
 	login-proxy.h \
@@ -47,6 +50,6 @@ pkginc_lib_HEADERS = $(headers)
 
 pkglib_LTLIBRARIES = libdovecot-login.la
 libdovecot_login_la_SOURCES = 
-libdovecot_login_la_LIBADD = liblogin.la ../lib-ssl-iostream/libssl_iostream.la ../lib-dovecot/libdovecot.la $(SSL_LIBS)
+libdovecot_login_la_LIBADD = liblogin.la ../lib-ssl-iostream/libssl_iostream.la ../lib-dovecot/libdovecot.la $(SSL_LIBS) $(LIBBLACKLIST)
 libdovecot_login_la_DEPENDENCIES = liblogin.la
 libdovecot_login_la_LDFLAGS = -export-dynamic

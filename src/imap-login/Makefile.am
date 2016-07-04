@@ -15,6 +15,7 @@ AM_CPPFLAGS = \
 imap_login_LDADD = \
 	$(LIBDOVECOT_LOGIN) \
 	$(LIBDOVECOT) \
+	$(LIBBLACKLIST) \
 	$(SSL_LIBS) \
 	$(BINARY_LDFLAGS)
 

@@ -5,6 +5,7 @@
 #include "login-proxy.h"
 #include "sasl-server.h"
 #include "master-login.h" /* for LOGIN_MAX_SESSION_ID_LEN */
+#include "blacklist-client.h"
 
 #define LOGIN_MAX_SESSION_ID_LEN 64
 #define LOGIN_MAX_MASTER_PREFIX_LEN 128
@@ -117,6 +118,8 @@ struct client {
 	const struct login_settings *set;
 	const struct master_service_ssl_settings *ssl_set;
 	const char *session_id, *listener_name, *postlogin_socket_path;
+
+	struct blacklist *blstate;
 
 	int fd;
 	struct istream *input;

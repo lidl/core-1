@@ -571,6 +571,7 @@ sasl_callback(struct client *client, enum sasl_server_reply sasl_reply,
 		}
 		client_auth_result(client, CLIENT_AUTH_RESULT_SUCCESS,
 				   &reply, NULL);
+		blacklist_notify(client, BLACKLIST_AUTH_OK);
 		client_destroy_success(client, "Login");
 		break;
 	case SASL_SERVER_REPLY_AUTH_FAILED:
@@ -592,6 +593,7 @@ sasl_callback(struct client *client, enum sasl_server_reply sasl_reply,
 			client_auth_result(client,
 				CLIENT_AUTH_RESULT_AUTHFAILED, &reply,
 				AUTH_FAILED_MSG);
+			blacklist_notify(client, BLACKLIST_AUTH_FAIL);
 		} else {
 			client_auth_result(client,
 				CLIENT_AUTH_RESULT_AUTHFAILED_REASON, &reply,

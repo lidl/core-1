@@ -142,6 +142,7 @@ client_create(int fd, bool ssl, pool_t pool,
 
 	client->fd = fd;
 	client->tls = ssl;
+	client->blstate = blacklist_init();
 
 	client->local_ip = conn->local_ip;
 	client->local_port = conn->local_port;
@@ -228,6 +229,11 @@ void client_destroy(struct client *client, const char *reason)
 		timeout_remove(&client->to_auth_waiting);
 	if (client->auth_response != NULL)
 		str_free(&client->auth_response);
+
+	if (client->blstate != NULL) {
+		free(client->blstate);
+		client->blstate = NULL;
+	}
 
 	if (client->fd != -1) {
 		net_disconnect(client->fd);
