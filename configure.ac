@@ -194,15 +194,15 @@ AS_HELP_STRING([--with-lz4], [Build with LZ4 compression support (auto)]),
   TEST_WITH(lz4, $withval),
   want_lz4=auto)
 
-AC_ARG_WITH(libcap,
-AS_HELP_STRING([--with-libcap], [Build with libcap support (Dropping capabilities) (auto)]),
-  TEST_WITH(libcap, $withval),
-  want_libcap=auto)
-
 AC_ARG_WITH(libblacklist,
 AS_HELP_STRING([--with-libblacklist], [Build with libblacklist support (auto)]),
   TEST_WITH(libblacklist, $withval),
   want_blacklistd=auto)
+
+AC_ARG_WITH(libcap,
+AS_HELP_STRING([--with-libcap], [Build with libcap support (Dropping capabilities) (auto)]),
+  TEST_WITH(libcap, $withval),
+  want_libcap=auto)
 
 AC_ARG_WITH(libwrap,
 AS_HELP_STRING([--with-libwrap], [Build with libwrap, ie. TCP-wrappers]),
@@ -338,9 +338,9 @@ DOVECOT_CFLAGS
 
 DOVECOT_NSL
 DOVECOT_FDATASYNC
+DOVECOT_LIBBLACKLIST
 DOVECOT_LIBCAP
 DOVECOT_LIBWRAP
-DOVECOT_LIBBLACKLIST
 
 DOVECOT_ARC4RANDOM
 
