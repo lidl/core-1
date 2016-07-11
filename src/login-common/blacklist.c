@@ -32,6 +32,7 @@
  */
 
 #include <ctype.h>
+#include <syslog.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,6 +44,8 @@
 
 #ifdef HAVE_LIBBLACKLIST
 #include <blacklist.h>
+/* internal definition from bl.h */
+struct blacklist *bl_create(bool, const char *, void (*)(int, const char *, va_list));
 #endif
 
 #include "blacklist-client.h"
@@ -53,7 +56,11 @@ blacklist_init(void)
 	struct blacklist *ptr = NULL;
 
 #ifdef HAVE_LIBBLACKLIST
-	ptr = blacklist_open();
+	i_debug("blacklist_init() called");
+	ptr = bl_create(0, "/.blacklistd", vsyslog);
+
+	if (ptr != NULL)
+		i_debug("ptr is %X", (unsigned int)ptr);
 #endif
 
 	return ptr;
@@ -63,8 +70,12 @@ void
 blacklist_notify(struct client *client, int action)
 {
 #ifdef HAVE_LIBBLACKLIST
+	i_debug("blacklist_notify() called");
+
 	if (client->blstate == NULL)
 		return;
+
+	i_debug("blacklist_notify() called: fd=%d action=%d", client->fd, action);
 
 	(void)blacklist_r(client->blstate, action, client->fd, "imap-login");
 #endif

@@ -427,6 +427,7 @@ client_auth_handle_reply(struct client *client,
 			return TRUE;
 		}
 	} else if (reply->nologin) {
+		blacklist_notify(client, BLACKLIST_AUTH_FAIL);
 		/* Authentication went ok, but for some reason user isn't
 		   allowed to log in. Shouldn't probably happen. */
 		if (reply->reason != NULL) {

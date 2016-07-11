@@ -574,6 +574,7 @@ static void imap_client_notify_auth_ready(struct client *client)
 	greet = t_str_new(128);
 	str_append(greet, "* OK ");
 	str_printfa(greet, "[CAPABILITY %s] ", get_capability(client));
+	str_printfa(greet, "[DEBUG fd=%d blstate=%d] ", client->fd, client->blstate);
 	str_append(greet, client->set->login_greeting);
 	str_append(greet, "\r\n");
 
